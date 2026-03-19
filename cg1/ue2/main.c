@@ -18,9 +18,10 @@ void init(){
         "layout (location = 1) in vec3 aColor;\n"
         "out vec3 vertexColor;\n"
         "uniform vec3 color;\n"
+        "uniform vec2 offset;\n"
         "void main() {\n"
         "   vertexColor = color;\n"
-        "   gl_Position = vec4(aPosition, 0.0, 1.0);\n"
+        "   gl_Position = vec4(aPosition + offset, 0.0, 1.0);\n"
         "}\n";
 
     GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -160,15 +161,21 @@ void draw(){
     GLuint color_loc = glGetUniformLocation(program, "color");
     
 
-    // change the color on every call of draw()
+    // change the color on every call of draw() smoothly
     changing_color[0] = (sin(glfwGetTime()) + 1.0f) / 2.0f;
     changing_color[1] = (cos(glfwGetTime()) + 1.0f) / 2.0f;
     changing_color[2] = (sinh(glfwGetTime()) + 1.0f) / 2.0f;
-     
-    
 
     glUniform3f(color_loc, changing_color[0], changing_color[1], changing_color[2]);
     
+    // change the position of the H smoothly 
+    GLuint pos_loc = glGetUniformLocation(program, "offset");
+    float amplitude = 0.5f;  
+    float x = amplitude * sin(glfwGetTime() / 1.5f); 
+    float y = amplitude * cos(glfwGetTime() / 1.5f); 
+
+    glUniform2f(pos_loc, x, y); 
+
     glBindVertexArray(vao); 
     glDrawArrays(GL_TRIANGLES, 0, 24); 
 }
