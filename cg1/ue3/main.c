@@ -2,6 +2,8 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <math.h>
+#include <sys/select.h>
 
 GLuint program; 
 GLuint vao; 
@@ -38,8 +40,15 @@ void init(){
         "in float vertexValue;\n"
         "uniform vec3 fragColor1;\n"
         "uniform vec3 fragColor2;\n"
+        "uniform float time;\n"
         "void main() {\n"
-        "   vec3 color = mix(fragColor1, fragColor2, vertexValue);\n"
+        "   float wave = sin(vertexValue * 10.00);\n"
+        "   float t = (wave + 1.0) / 3.0;\n"
+        //"   vec3 color = mix(fragColor1, fragColor2, vertexValue);\n"
+        //"   vec3 color = mix(fragColor1, fragColor2, step(0.5f, vertexValue));\n"
+        //"   vec3 color = mix(fragColor1, fragColor2, smoothstep(0.3f, 0.7f, vertexValue));\n"        
+        //"   vec3 color = mix(fragColor1, fragColor2, t);\n"                
+        //"   vec3 color = mix(fragColor1, fragColor2, t);\n"                        
         "   gl_FragColor = vec4(color, 1.0);\n"
         "}\n";
 
