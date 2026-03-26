@@ -1,0 +1,24 @@
+Preview:
+
+Author: Dutch Meyer und Wil-
+liam Bolosky
+Titel: A Study of Practical Deduplication
+
+Questions: 
+
+1. Wie haben sie die file systems von Microsoft überwacht? 
+2. Wie haben sie die Deduplication ausgeführt? 
+3. Was haben sie denn genau rausgefunden? 
+
+
+Read: 
+
+1: Es wurden VSS Snapshots auf office rechnern von 1000 Microsoft Angestellten erstellt über eine Software, welche diese freiweillig installierten mit Aussicht auf einen Preis .
+    Der File Scanner lief in den Off-Hours und machte Snapshots der file systems. Die Files wurden über zwei Chunking algortihmus in versch. Stücke zerlegt und gehasht. 
+    Duplicate wurden über die Vergleiche der Chunks gefunden
+
+2: Die Daten wurden in verschiedene Domains unterteilt und dann in sich verglichen. Bei größreren Domains ergaben sich logischerweise mehr duplikate durch libraries etc als bei kleinen. 
+    Es wurden dann nur einzigartige Chunks gespeicherr. 
+
+
+3: Es ist erschreckend effektiv auch nur whole file deduplication zu betreiben, auch wenn es chunking durch die bank weg bessere ergebnisse erzeugt, dabei aber auch deutliche mehr Ressourcen braucht 
