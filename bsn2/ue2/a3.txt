@@ -1,0 +1,46 @@
+
+Aufbau: 
+
+(1) User Commands and Daemons („Anwender-Kommandos und Hintergrunddienste“)
+(2) System Calls and Kernel Services („Systemaufrufe und -dienste“)
+(3) Subroutines („Unterprogramme“)
+(4) Special Files, Device Drivers and Hardware („Geräte“)
+(5) Configuration Files („Konfigurationsdateien“)
+(6) Games („Spiele“)
+(7) Miscellaneous Commands („Verschiedenes“)
+(8) Administrative Commands and Daemons („Verwaltung“)
+
+
+aufbau einer manpage: 
+NAME
+    Name des Programms gefolgt von einer einzeiligen Kurzbeschreibung.
+
+SYNOPSIS
+    Für Programme wird hier eine vollständige Liste der Parameter und Optionen beschrieben.
+
+DESCRIPTION
+    Eine Textbeschreibung der Funktionsweise des Befehls oder der Funktion. (Üblicherweise jedoch nicht der Benutzung, siehe unten.)
+
+OPTIONS / FLAGS
+    Eine üblicherweise alphabetisch sortierte Liste der Optionen und ihrer zulässigen Argumente.
+
+(USAGE)
+    Eine Anleitung für den Einsatz des Programms.
+
+EXIT STATUS
+    Beschreibung möglicher Rückgabewerte und deren Bedeutung.
+
+(EXAMPLES)
+    Einige Beispiele für die Benutzung.
+
+(FILES)
+    Falls bestimmte Dateien (etwa Konfigurationsdateien) an der Funktion des Programms beteiligt sind oder durch die Ausführung desselben betroffen sind, so werden sie hier aufgeführt und ihre Funktion beschrieben.
+
+SEE ALSO
+    Eine Liste ähnlicher oder verwandter Befehle oder Funktionen, bei betroffenen Dateien wird hier auf die entsprechenden Einträge in Section 5 verwiesen.
+
+
+suchen: 
+
+unterhlab auf der manpage mit /[pattern] 
+oberhalb suchen mit ?[pattern]
