@@ -20,9 +20,9 @@ void translate(GLfloat* out, GLfloat* in, GLfloat* v){
     GLfloat* ident; 
     identity(ident);
 
-    ident[3] = v[0]; 
-    ident[7] = v[1]; 
-    ident[11] = v[2]; 
+    ident[12] = v[0]; 
+    ident[13] = v[1]; 
+    ident[14] = v[2]; 
     ident[15] = v[3]; 
 
     for (int col = 0; col < 4; col++){
