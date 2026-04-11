@@ -1,3 +1,4 @@
+#include <math.h>
 #include <stdio.h>
 
 #include <GL/glew.h>
@@ -5,6 +6,26 @@
 
 GLuint program;
 GLuint vao;  
+GLfloat changing_color[3] = {1.0f, 0.0f, 0.0f}; 
+
+void multiply(GLfloat* out, GLfloat* in, GLfloat* ident){
+
+    GLfloat tmp[16]; 
+     
+    for (int i = 0; i < 16; i++){
+        tmp[i] = in[i]; 
+    }
+
+    for (int col = 0; col < 4; col++){
+        for (int row = 0; row < 4; row++){
+            out[col *4 + row] = 
+                tmp[0*4 + row] * ident[col*4 +0] +
+                tmp[1*4 + row] * ident[col*4 +1] +
+                tmp[2*4 + row] * ident[col*4 +2] +
+                tmp[3*4 + row] * ident[col*4 +3]; 
+        }
+    }
+}
 
 void identity(GLfloat* out){
     for (int i = 0; i < 16; i++){
@@ -24,16 +45,32 @@ void translate(GLfloat* out, GLfloat* in, GLfloat* v){
     ident[13] = v[1]; 
     ident[14] = v[2]; 
     ident[15] = v[3]; 
+    
+    multiply(out, in, ident); 
+}
 
-    for (int col = 0; col < 4; col++){
-        for (int row = 0; row < 4; row++){
-            out[col *4 + row] = 
-                in[0*4 + row] * ident[col*4 +0] +
-                in[1*4 + row] * ident[col*4 +1] +
-                in[2*4 + row] * ident[col*4 +2] +
-                in[3*4 + row] * ident[col*4 +3]; 
-        }
-    }
+void scale(GLfloat* out, GLfloat* in, GLfloat* v){
+    GLfloat* ident; 
+    identity(ident); 
+
+    ident[0] = v[0]; 
+    ident[5] = v[1]; 
+    ident[10] = v[2]; 
+    ident[15] = 1; 
+
+    multiply(out, in, ident);
+}
+
+void rotatez(GLfloat* out, GLfloat* in, GLfloat angle){
+    GLfloat* ident; 
+    identity(ident); 
+
+    ident[0] = cos(angle); 
+    ident[1] = sin(angle); 
+    ident[4] = -(sin(angle));
+    ident[5] = cos(angle); 
+    
+    multiply(out, in, ident); 
 }
 
 void init(){
@@ -43,9 +80,11 @@ void init(){
         "layout (location = 0) in vec2 aPosition;\n"
         "layout (location = 1) in vec3 aColor;\n"
         "out vec3 vertexColor;\n"
+        "uniform vec3 color;\n"
+        "uniform mat4 offset;\n"
         "void main() {\n"
-        "   vertexColor = aColor;\n"
-        "   gl_Position = vec4(aPosition, 0.0, 1.0);\n"
+        "   vertexColor = color;\n"
+        "   gl_Position = vec4(aPosition + offset, 0.0, 1.0);\n"
         "}\n";
 
     GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -107,9 +146,37 @@ void init(){
 
     GLfloat triangleVertice[] = 
     {   //x   //y   R     G     B
-        0.0f, 0.5f, 1.0f, 1.0f, 0.0f,
-        -0.5f, -0.5f, 0.7f, 0.0f, 1.0f,
-        0.5f, -0.5f, 0.1f, 1.0f, 0.6f 
+        -0.3f, 0.5f, 1.0f, 0.0f, 0.0f,
+        -0.2f, 0.5f, 1.0f, 0.0f, 0.0f,
+        -0.3f, -0.5f, 1.0f, 0.0f, 0.0f, 
+        
+        -0.2f, -0.5f, 1.0f, 0.0f, 0.0f,
+        -0.2f, 0.5f, 1.0f, 0.0f, 0.0f,
+        -0.3f, -0.5f, 1.0f, 0.0f, 0.0f, 
+
+        0.3f, 0.5f, 1.0f, 0.0f, 0.0f,
+        0.2f, 0.5f, 1.0f, 0.0f, 0.0f,
+        0.3f, -0.5f, 1.0f, 0.0f, 0.0f, 
+        
+        0.2f, -0.5f, 1.0f, 0.0f, 0.0f,
+        0.2f, 0.5f, 1.0f, 0.0f, 0.0f,
+        0.3f, -0.5f, 1.0f, 0.0f, 0.0f, 
+        // middle rectangle of the H 
+        -0.2f, 0.1f, 1.0f, 0.0f, 0.0f,
+        -0.2f, 0.0f, 1.0f, 0.0f, 0.0f,
+        0.2f, 0.1f, 1.0f, 0.0f, 0.0f, 
+
+        0.2f, 0.1f, 1.0f, 0.0f, 0.0f,
+        0.2f, 0.0f, 1.0f, 0.0f, 0.0f,
+        -0.2f, 0.0f, 1.0f, 0.0f, 0.0f, 
+        // underline of the H 
+        -0.3f, -0.7f, 1.0f, 0.0f, 0.0f,
+        -0.3f, -0.8f, 1.0f, 0.0f, 0.0f,
+        0.3f, -0.7f, 1.0f, 0.0f, 0.0f, 
+
+        0.3f, -0.7f, 1.0f, 0.0f, 0.0f,
+        0.3f, -0.8f, 1.0f, 0.0f, 0.0f,
+        -0.3f, -0.8f, 1.0f, 0.0f, 0.0f,      
     };
     GLuint triangleVertexBufferObject; 
     glGenBuffers(1, &triangleVertexBufferObject); 
@@ -153,8 +220,27 @@ void init(){
 void draw(){
     glClear(GL_COLOR_BUFFER_BIT);  
     glUseProgram(program); 
+
+    GLuint color_loc = glGetUniformLocation(program, "color");
+    
+
+    // change the color on every call of draw() smoothly
+    changing_color[0] = (sin(glfwGetTime()) + 1.0f) / 2.0f;
+    changing_color[1] = (cos(glfwGetTime()) + 1.0f) / 2.0f;
+    changing_color[2] = (sinh(glfwGetTime()) + 1.0f) / 2.0f;
+
+    glUniform3f(color_loc, changing_color[0], changing_color[1], changing_color[2]);
+    
+    // change the position of the H smoothly 
+    GLuint pos_loc = glGetUniformLocation(program, "offset");
+    float amplitude = 0.5f;  
+    float x = amplitude * sin(glfwGetTime() / 1.5f); 
+    float y = amplitude * cos(glfwGetTime() / 1.5f); 
+
+    glUniform2f(pos_loc, x, y); 
+
     glBindVertexArray(vao); 
-    glDrawArrays(GL_TRIANGLES, 0, 3); 
+    glDrawArrays(GL_TRIANGLES, 0, 24); 
 }
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height){
