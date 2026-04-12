@@ -4,6 +4,7 @@
 #include <GLFW/glfw3.h>
 #include <stdlib.h>
 #include <math.h>
+#include <time.h>
 
 GLuint program;
 GLuint vao;  

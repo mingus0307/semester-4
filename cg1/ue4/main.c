@@ -1,15 +1,18 @@
 #include <math.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+
 
 GLuint program;
 GLuint vao;  
 GLfloat changing_color[3] = {1.0f, 0.0f, 0.0f}; 
 
-void multiply(GLfloat* out, GLfloat* in, GLfloat* ident){
 
+void multiply(GLfloat* out, GLfloat* in, GLfloat* ident){
     GLfloat tmp[16]; 
      
     for (int i = 0; i < 16; i++){
@@ -19,15 +22,15 @@ void multiply(GLfloat* out, GLfloat* in, GLfloat* ident){
     for (int col = 0; col < 4; col++){
         for (int row = 0; row < 4; row++){
             out[col *4 + row] = 
-                tmp[0*4 + row] * ident[col*4 +0] +
-                tmp[1*4 + row] * ident[col*4 +1] +
-                tmp[2*4 + row] * ident[col*4 +2] +
-                tmp[3*4 + row] * ident[col*4 +3]; 
+                ident[0*4 + row] * tmp[col*4 +0] +
+                ident[1*4 + row] * tmp[col*4 +1] +
+                ident[2*4 + row] * tmp[col*4 +2] +
+                ident[3*4 + row] * tmp[col*4 +3]; 
         }
     }
 }
 
-void identity(GLfloat* out){
+void identity(GLfloat* out){ 
     for (int i = 0; i < 16; i++){
         out[i] = 0; 
     }
@@ -35,22 +38,23 @@ void identity(GLfloat* out){
     out[5] = 1; 
     out[10] = 1; 
     out[15] = 1; 
+    
 }
 
-void translate(GLfloat* out, GLfloat* in, GLfloat* v){
-    GLfloat* ident; 
+void translate(GLfloat* out, GLfloat* in, GLfloat* v){ 
+    GLfloat ident[16]; 
     identity(ident);
 
     ident[12] = v[0]; 
     ident[13] = v[1]; 
     ident[14] = v[2]; 
-    ident[15] = v[3]; 
+    ident[15] = 1; 
     
     multiply(out, in, ident); 
 }
 
 void scale(GLfloat* out, GLfloat* in, GLfloat* v){
-    GLfloat* ident; 
+    GLfloat ident[16]; 
     identity(ident); 
 
     ident[0] = v[0]; 
@@ -62,29 +66,61 @@ void scale(GLfloat* out, GLfloat* in, GLfloat* v){
 }
 
 void rotatez(GLfloat* out, GLfloat* in, GLfloat angle){
-    GLfloat* ident; 
+    GLfloat ident[16]; 
     identity(ident); 
 
     ident[0] = cos(angle); 
     ident[1] = sin(angle); 
-    ident[4] = -(sin(angle));
+    ident[4] = -sin(angle);
     ident[5] = cos(angle); 
     
-    multiply(out, in, ident); 
+    multiply(out, ident, in); 
 }
+
+void printMat(GLfloat* m) {
+    for (int row = 0; row < 4; row++) {
+        for (int col = 0; col < 4; col++) {
+            printf("%8.3f ", m[col * 4 + row]);
+        }
+        printf("\n");
+    }
+    printf("\n");
+}
+
+void render_loop(GLfloat* out, GLuint pos_loc){ 
+    glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);  
+    GLfloat v[3];
+    float amplitude = 0.5f;  
+    v[0] = amplitude * sin(glfwGetTime() / 1.5f); 
+    v[1] = amplitude * cos(glfwGetTime() / 1.5f);
+    v[2] = 0.0; 
+    float angle = glfwGetTime() * 2.0f * M_PI / 6.0f;
+
+    identity(out); 
+
+    rotatez(out, out, angle); 
+    translate(out, out, v);
+
+    printMat(out); 
+    glUniformMatrix4fv(pos_loc, 1, GL_FALSE, out);
+    glBindVertexArray(vao); 
+    glDrawArrays(GL_TRIANGLES, 0, 24); 
+}
+
+    
 
 void init(){
     // create vertex shader 
     const char* vertexText = 
         "#version 330 core\n"
-        "layout (location = 0) in vec2 aPosition;\n"
+        "layout (location = 0) in vec3 aPosition;\n"
         "layout (location = 1) in vec3 aColor;\n"
         "out vec3 vertexColor;\n"
         "uniform vec3 color;\n"
         "uniform mat4 offset;\n"
         "void main() {\n"
         "   vertexColor = color;\n"
-        "   gl_Position = vec4(aPosition + offset, 0.0, 1.0);\n"
+        "   gl_Position = offset * vec4(aPosition , 1.0);\n"
         "}\n";
 
     GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -233,14 +269,8 @@ void draw(){
     
     // change the position of the H smoothly 
     GLuint pos_loc = glGetUniformLocation(program, "offset");
-    float amplitude = 0.5f;  
-    float x = amplitude * sin(glfwGetTime() / 1.5f); 
-    float y = amplitude * cos(glfwGetTime() / 1.5f); 
-
-    glUniform2f(pos_loc, x, y); 
-
-    glBindVertexArray(vao); 
-    glDrawArrays(GL_TRIANGLES, 0, 24); 
+    GLfloat* wMatrix = malloc(sizeof(GLfloat) * 16); 
+    render_loop(wMatrix, pos_loc);     
 }
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height){
