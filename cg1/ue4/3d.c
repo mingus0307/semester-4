@@ -8,8 +8,10 @@
 
 
 GLuint program;
-GLuint vao;  
-GLfloat changing_color[3] = {1.0f, 0.0f, 0.0f}; 
+GLuint vao;   
+GLfloat proj[16];
+GLfloat model[16]; 
+GLfloat view[16]; 
 
 void printMat(GLfloat* m) {
     for (int row = 0; row < 4; row++) {
@@ -50,9 +52,14 @@ GLfloat* cross_mult(GLfloat* a, GLfloat* b){
 }
 
 void norm(GLfloat* vec){
-    vec[0] = (1 / sqrt((vec[0] * vec[0]) + (vec[1] * vec[1]) + (vec[2] * vec[2]))) * vec[0];
-    vec[1] = (1 / sqrt((vec[0] * vec[0]) + (vec[1] * vec[1]) + (vec[2] * vec[2]))) * vec[1];
-    vec[2] = (1 / sqrt((vec[0] * vec[0]) + (vec[1] * vec[1]) + (vec[2] * vec[2]))) * vec[2]; 
+    GLfloat tmp[3]; 
+    tmp[0] = vec[0];
+    tmp[1] = vec[1];
+    tmp[2] = vec[2]; 
+
+    vec[0] = (1 / sqrt((tmp[0] * tmp[0]) + (tmp[1] * tmp[1]) + (tmp[2] * tmp[2]))) * tmp[0];
+    vec[1] = (1 / sqrt((tmp[0] * tmp[0]) + (tmp[1] * tmp[1]) + (tmp[2] * tmp[2]))) * tmp[1];
+    vec[2] = (1 / sqrt((tmp[0] * tmp[0]) + (tmp[1] * tmp[1]) + (tmp[2] * tmp[2]))) * tmp[2];
 }
 
 void identity(GLfloat* out){ 
@@ -114,71 +121,52 @@ void lookAt(GLfloat* out, GLfloat* eye, GLfloat* center, GLfloat* up){
     n[0] = eye[0] - center[0]; 
     n[1] = eye[1] - center[1]; 
     n[2] = eye[2] - center[2];
-
+    norm(n);
     // Herleitung u 
     GLfloat* u; 
     u = cross_mult(up, n); 
-
+    norm(u);
     // Herleitung v 
     GLfloat* v; 
-    v = cross_mult(n, u); 
-
-    // norm them n,u,v 
-    norm(n);
-    norm(u);
+    v = cross_mult(n, u);  
     norm(v); 
 
     // build rotation matrix 
-    m_r[0] = u[0]; 
-    m_r[1] = u[1]; 
-    m_r[2] = u[2];
-    m_r[3] = 0;
-    
-    m_r[4] = v[0]; 
-    m_r[5] = v[1]; 
-    m_r[6] = v[2];
-    m_r[7] = 0;
-    
-    m_r[8] = n[0]; 
-    m_r[9] = n[1]; 
-    m_r[10] = n[2];
-    m_r[11] = 0;
-    
-    m_r[12] = 0; 
-    m_r[13] = 0; 
-    m_r[14] = 0;
-    m_r[15] = 1;
+    m_r[0] = u[0];
+    m_r[4] = u[1];
+    m_r[8] = u[2];
 
-    // build m_t
+    m_r[1] = v[0];
+    m_r[5] = v[1];
+    m_r[9] = v[2];
+
+    m_r[2] = n[0];
+    m_r[6] = n[1];
+    m_r[10]= n[2];
+
     m_t[12] = -eye[0];
-    m_t[13] = -eye[1]; 
+    m_t[13] = -eye[1];
     m_t[14] = -eye[2];
 
     // multiply to view matrix 
     multiply(out, m_r, m_t); 
+    free(u); 
+    free(v); 
 
 }
 
-void perspective(GLfloat* out, GLfloat fovy, GLfloat aspect,GLfloat near,GLfloat far){
-    GLfloat tanHalfFOV = tan((fovy/2) * (M_PI / 180)); 
-    GLfloat top = near * tanHalfFOV; 
-    GLfloat bottom = -top; 
-    GLfloat right = top * aspect;
-    GLfloat left = -right; 
+void perspective(float* out, float fovy, float aspect, float near, float far){
+    float rad = fovy * M_PI / 180.0f;
+    float f = 1.0f / tan(rad / 2.0f);  // = cotangent(fovy/2)
 
+    for (int i = 0; i < 16; i++) out[i] = 0.0f;
 
-    out[0] = 2 / (right - left);
-    out[5] = 2 / (top - bottom);
-    out[10] = -(1 / near) * ((far + near)/(far - near));
-    out[15] = 0;
-    
-    out[8] = (1 / near) * ((right + left)/(right - left)); 
-    out[9] = (1 / near) * ((top + bottom)/(top - bottom));
-    out[11] = -(1 / near); 
-
-    out[14] = -((2 * far) / (far - near)); 
-
-
+    out[0]  = f / aspect;
+    out[5]  = f;
+    out[10] = -(far + near) / (far - near);
+    out[11] = -1.0f;
+    out[14] = -(2.0f * far * near) / (far - near);
+    // out[15] bleibt 0
 }
 
 
@@ -193,18 +181,46 @@ void render_loop(GLfloat* out, GLuint pos_loc){
 
     identity(out); 
 
-    rotatez(out, out, angle); 
-    translate(out, out, v);
+    // rotation um mehrere achsen 
+    float angleY = glfwGetTime() * 2.0f * M_PI / 6.0f;
+    float angleX = 0.5f;  // leichte Neigung damit man oben/unten sieht
 
+    // Rotation um Y-Achse
+    GLfloat rotY[16];
+    identity(rotY);
+    rotY[0]  =  cos(angleY);
+    rotY[8]  =  sin(angleY);
+    rotY[2]  = -sin(angleY);
+    rotY[10] =  cos(angleY);
+
+    // Rotation um X-Achse  
+    GLfloat rotX[16];
+    identity(rotX);
+    rotX[5]  =  cos(angleX);
+    rotX[6]  =  sin(angleX);
+    rotX[9]  = -sin(angleX);
+    rotX[10] =  cos(angleX);
+
+    identity(out);
+    multiply(out, rotY, rotX);  // erst X, dann Y
+
+    GLuint projLoc = glGetUniformLocation(program, "projection");
+    GLuint modelLoc = glGetUniformLocation(program, "model");
+    GLuint viewLoc = glGetUniformLocation(program, "view"); 
+    glUniformMatrix4fv(projLoc, 1, GL_FALSE, proj);
+    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, out);
+    glUniformMatrix4fv(viewLoc, 1, GL_FALSE, view);
+    
     printMat(out); 
     glUniformMatrix4fv(pos_loc, 1, GL_FALSE, out);
     glBindVertexArray(vao); 
-    glDrawArrays(GL_TRIANGLES, 0, 24); 
+    glDrawArrays(GL_TRIANGLES, 0, 30); 
 }
 
     
 
 void init(){
+    
     // create vertex shader 
     const char* vertexText = 
         "#version 330 core\n"
@@ -213,9 +229,12 @@ void init(){
         "out vec3 vertexColor;\n"
         "uniform vec3 color;\n"
         "uniform mat4 offset;\n"
+        "uniform mat4 projection;\n"
+        "uniform mat4 model;\n"
+        "uniform mat4 view;\n"
         "void main() {\n"
-        "   vertexColor = color;\n"
-        "   gl_Position = offset * vec4(aPosition , 1.0);\n"
+        "   vertexColor = aColor;\n"
+        "   gl_Position = projection * view * model * vec4(aPosition, 1.0);\n"
         "}\n";
 
     GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -276,39 +295,56 @@ void init(){
     // create triangle buffer 
 
     GLfloat triangleVertice[] = 
-    {   //x   //y   R     G     B
-        -0.3f, 0.5f, 1.0f, 0.0f, 0.0f,
-        -0.2f, 0.5f, 1.0f, 0.0f, 0.0f,
-        -0.3f, -0.5f, 1.0f, 0.0f, 0.0f, 
-        
-        -0.2f, -0.5f, 1.0f, 0.0f, 0.0f,
-        -0.2f, 0.5f, 1.0f, 0.0f, 0.0f,
-        -0.3f, -0.5f, 1.0f, 0.0f, 0.0f, 
+    { 
+        //x         //y       //z      //r       //g       //b
+        -0.5f, -0.5f, 0.5f, 1.0f, 0.0f, 0.0f,
+        0.5f, -0.5f, 0.5f, 1.0f, 0.0f, 0.0f, 
+        0.5f, 0.5f, 0.5f, 1.0f, 0.0f, 0.0f,
 
-        0.3f, 0.5f, 1.0f, 0.0f, 0.0f,
-        0.2f, 0.5f, 1.0f, 0.0f, 0.0f,
-        0.3f, -0.5f, 1.0f, 0.0f, 0.0f, 
-        
-        0.2f, -0.5f, 1.0f, 0.0f, 0.0f,
-        0.2f, 0.5f, 1.0f, 0.0f, 0.0f,
-        0.3f, -0.5f, 1.0f, 0.0f, 0.0f, 
-        // middle rectangle of the H 
-        -0.2f, 0.1f, 1.0f, 0.0f, 0.0f,
-        -0.2f, 0.0f, 1.0f, 0.0f, 0.0f,
-        0.2f, 0.1f, 1.0f, 0.0f, 0.0f, 
+        -0.5f, -0.5f, 0.5f, 1.0f, 0.0f, 0.0f,
+        0.5f, 0.5f, 0.5f, 1.0f, 0.0f, 0.0f, 
+        -0.5f, 0.5f, 0.5f, 1.0f, 0.0f, 0.0f,
 
-        0.2f, 0.1f, 1.0f, 0.0f, 0.0f,
-        0.2f, 0.0f, 1.0f, 0.0f, 0.0f,
-        -0.2f, 0.0f, 1.0f, 0.0f, 0.0f, 
-        // underline of the H 
-        -0.3f, -0.7f, 1.0f, 0.0f, 0.0f,
-        -0.3f, -0.8f, 1.0f, 0.0f, 0.0f,
-        0.3f, -0.7f, 1.0f, 0.0f, 0.0f, 
+        //back 
+        -0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+        0.5f,  0.5f, -0.5f,  0.0f, 1.0f, 0.0f,
+        0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
 
-        0.3f, -0.7f, 1.0f, 0.0f, 0.0f,
-        0.3f, -0.8f, 1.0f, 0.0f, 0.0f,
-        -0.3f, -0.8f, 1.0f, 0.0f, 0.0f,      
+        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 0.0f,
+        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f, 0.0f,
+        0.5f,  0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+
+        //right
+        0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f,
+        0.5f,  -0.5f, -0.5f,  0.0f, 0.0f, 1.0f,
+        0.5f, 0.5f, -0.5f, 0.0f, 0.0f, 1.0f,
+
+        0.5f, -0.5f, 0.5f,  0.0f, 0.0f, 1.0f,
+        0.5f,  0.5f, -0.5f,  0.0f, 0.0f, 1.0f,
+        0.5f,  0.5f, 0.5f, 0.0f, 0.0f, 1.0f,
+
+        //left
+        -0.5f, -0.5f, -0.5f, 1.4f, 0.6f, 0.0f,
+        -0.5f,  -0.5f, 0.5f,  1.4f, 0.6f, 0.0f,
+        -0.5f, 0.5f, 0.5f, 1.4f, 0.6f, 0.0f,
+
+        -0.5f, -0.5f, -0.5f,  1.4f, 0.6f, 0.0f,
+        -0.5f,  0.5f, 0.5f,  1.4f, 0.6f, 0.0f,
+        -0.5f,  0.5f, -0.5f, 1.4f, 0.6f, 0.0f,        
+
+        //top
+        -0.5f, 0.5f, 0.5f, 0.4f, 1.6f, 1.0f,
+        0.5f,  0.5f, 0.5f,  0.4f, 1.6f, 1.0f,
+        0.5f, 0.5f, -0.5f, 0.4f, 1.6f, 1.0f,
+
+        -0.5f, 0.5f, 0.5f,  0.4f, 1.6f, 1.0f,
+        -0.5f,  0.5f, -0.5f,  0.4f, 1.6f, 1.0f,
+        0.5f,  0.5f, -0.5f, 0.4f, 1.6f, 1.0f,
+
     };
+
+
+
     GLuint triangleVertexBufferObject; 
     glGenBuffers(1, &triangleVertexBufferObject); 
 
@@ -322,10 +358,10 @@ void init(){
     glBindBuffer(GL_ARRAY_BUFFER, triangleVertexBufferObject); 
     glVertexAttribPointer(
         0, 
-        2, 
+        3, 
         GL_FLOAT, 
         GL_FALSE, 
-        5 * sizeof(GLfloat),
+        6 * sizeof(GLfloat),
         0 
 
     );
@@ -336,8 +372,8 @@ void init(){
         3, 
         GL_FLOAT, 
         GL_FALSE, 
-        5 * sizeof(GLfloat),
-        (GLvoid*)(2 * sizeof(GLfloat)) 
+        6 * sizeof(GLfloat),
+        (GLvoid*)(3 * sizeof(GLfloat)) 
     );
     glEnableVertexAttribArray(1);
 
@@ -346,23 +382,25 @@ void init(){
 
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     glViewport(0, 0, 800, 600); 
+    
+    perspective(proj, 60.0f, 800.0f/600.0f, 0.1f, 100.0f);
+    lookAt(view,
+       (GLfloat[]){0,0,3},   // eye
+       (GLfloat[]){0,0,0},   // center
+       (GLfloat[]){0,1,0});  // up
 }
 
 void draw(){
-    glClear(GL_COLOR_BUFFER_BIT);  
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  
     glUseProgram(program); 
-
-    GLuint color_loc = glGetUniformLocation(program, "color");
     
+    glEnable(GL_DEPTH_TEST); 
 
-    // change the color on every call of draw() smoothly
-    changing_color[0] = (sin(glfwGetTime()) + 1.0f) / 2.0f;
-    changing_color[1] = (cos(glfwGetTime()) + 1.0f) / 2.0f;
-    changing_color[2] = (sinh(glfwGetTime()) + 1.0f) / 2.0f;
+    GLuint projLoc = glGetUniformLocation(program, "projection");
+    GLuint modelLoc = glGetUniformLocation(program, "model");
 
-    glUniform3f(color_loc, changing_color[0], changing_color[1], changing_color[2]);
+
     
-    // change the position of the H smoothly 
     GLuint pos_loc = glGetUniformLocation(program, "offset");
     GLfloat* wMatrix = malloc(sizeof(GLfloat) * 16); 
     render_loop(wMatrix, pos_loc);     
