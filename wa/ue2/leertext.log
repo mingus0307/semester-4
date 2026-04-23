@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2026.3.25)  26 MAR 2026 12:22
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2026.4.11)  23 APR 2026 11:43
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -64,45 +64,223 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <8> on input line 11.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <6> on input line 11.
- [1
+
+Underfull \hbox (badness 10000) in paragraph at lines 13--31
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 13--31
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 13--31
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 13--31
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 13--31
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 13--31
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 13--31
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 13--31
+
+ []
+
+(./leertext.toc
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <10.95> on input line 3.
+)
+\tf@toc=\write3
+\openout3 = `leertext.toc'.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 36--41
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 36--41
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 36--41
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 36--41
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 36--41
+
+ []
+
+[1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texlive/texmf-di
 st/fonts/enc/dvips/cm-super/cm-super-t1.enc}]
-Overfull \hbox (6.62296pt too wide) in paragraph at lines 103--115
+Underfull \hbox (badness 10000) in paragraph at lines 69--85
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 69--85
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 69--85
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 69--85
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 69--85
+
+ []
+
+[2]
+Overfull \hbox (6.62296pt too wide) in paragraph at lines 103--117
 []\T1/cmr/m/n/10.95 Zweitens: ich habe erk-lärt mit diese zwei Spieler: nach Do
 rt-mund brauchen
  []
 
 
-Overfull \hbox (0.50113pt too wide) in paragraph at lines 127--129
+Underfull \hbox (badness 10000) in paragraph at lines 103--117
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 103--117
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 103--117
+
+ []
+
+
+Overfull \hbox (0.50113pt too wide) in paragraph at lines 128--130
 []\T1/cmr/m/n/10.95 Ich kön-nte jetzt nicht ze-ich-nen, nicht einen Strich, und
  bin nie ein gröÿerer
  []
 
-[2]
-Overfull \hbox (3.5981pt too wide) in paragraph at lines 130--142
+
+Overfull \hbox (3.5981pt too wide) in paragraph at lines 131--147
 \T1/cmr/m/n/10.95 fläche der un-durch-dringlichen Fin-ster-nis meines Waldes ru
 ht, und nur einzelne
  []
 
-[3] [4] (./leertext.aux) ) 
+
+Underfull \hbox (badness 10000) in paragraph at lines 131--147
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 131--147
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 131--147
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 131--147
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 131--147
+
+ []
+
+[3]
+Underfull \hbox (badness 10000) in paragraph at lines 166--175
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 166--175
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 166--175
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 189--199
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 189--199
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 189--199
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 189--199
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 189--199
+
+ []
+
+[4] [5] (./leertext.aux) ) 
 Here is how much of TeX's memory you used:
- 1017 strings out of 476041
- 16291 string characters out of 5793174
- 1857388 words of memory out of 6000000
- 21530 multiletter control sequences out of 15000+600000
- 519943 words of font info for 48 fonts, out of 8000000 for 9000
+ 1028 strings out of 476041
+ 16442 string characters out of 5793174
+ 1856388 words of memory out of 6000000
+ 21537 multiletter control sequences out of 15000+600000
+ 521342 words of font info for 51 fonts, out of 8000000 for 9000
  1137 hyphenation exceptions out of 8191
  33i,6n,38p,173b,197s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/cm-
-super/sfbx1200.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/cm-super/s
-fbx1440.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/cm-super/sfrm1095
-.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></
-usr/share/texlive/texmf-dist/fonts/type1/public/cm-super/sfrm1728.pfb>
-Output written on leertext.pdf (4 pages, 98236 bytes).
+super/sfbx1095.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/cm-super/s
+fbx1200.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/cm-super/sfbx1440
+.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb></
+usr/share/texlive/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/sha
+re/texlive/texmf-dist/fonts/type1/public/cm-super/sfrm1728.pfb>
+Output written on leertext.pdf (5 pages, 121588 bytes).
 PDF statistics:
- 43 PDF objects out of 1000 (max. 8388607)
- 26 compressed objects within 1 object stream
+ 51 PDF objects out of 1000 (max. 8388607)
+ 31 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

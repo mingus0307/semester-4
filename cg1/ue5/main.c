@@ -8,15 +8,20 @@
 GLuint program; 
 GLuint vao; 
 
+
+GLfloat make_angle_to_float(float n){
+
+}
+
 void init(){
     /*VERTEX SHADER*/
     const char* vertexText = 
         "#version 330 core\n"
         "layout (location = 0) in vec2 aPosition;\n"
-        "layout (location = 1) in float value;\n"
-        "out float vertexValue;\n"
+        "layout (location = 1) in vec3 hsv;\n"
+        "out vec3 vertexValue;\n"
         "void main() {\n"
-        "   vertexValue = value;\n"
+        "   vertexValue = hsv;\n"
         "   gl_Position = vec4(aPosition, 0.0, 1.0);\n"
         "}\n";
 
@@ -37,14 +42,18 @@ void init(){
     /*FRAGEMENT SHADER*/
     const char* fragmentText = 
         "#version 330 core\n"
-        "in float vertexValue;\n"
+        "in vec3 vertexValue;\n"
         "uniform vec3 fragColor1;\n"
-        "uniform vec3 fragColor2;\n"
         "uniform float time;\n"
+        "vec3 hsv2rgb(vec3 c){\n"
+        "   float h = floor(c.x / 60);\n"
+        "   float f = (c.x / 60) - h;\n"
+        "   "
+        "}\n"
         "void main() {\n"
-        "   float wave = sin(vertexValue * 10.00);\n"
-        "   float t = (wave + 1.0) / 3.0;\n"
-        "   vec3 color = mix(fragColor1, fragColor2, vertexValue);\n"
+        //"   float wave = sin(vertexValue * 10.00);\n"
+        //"   float t = (wave + 1.0) / 3.0;\n"
+        "   vec3 color = hsv2rgb(vertexValue);\n"
         //"   vec3 color = mix(fragColor1, fragColor2, step(0.5f, vertexValue));\n"
         //"   vec3 color = mix(fragColor1, fragColor2, smoothstep(0.3f, 0.7f, vertexValue));\n"        
         //"   vec3 color = mix(fragColor1, fragColor2, t);\n"                
@@ -60,8 +69,8 @@ void init(){
     if (!status){
         printf("ERROR compiling fragment shader:"); 
         GLchar infoLog[1024]; 
-        glGetShaderInfoLog(vertexShader, 1024, NULL, infoLog); 
-        printf(infoLog);
+        glGetShaderInfoLog(fragmentShader, 1024, NULL, infoLog); 
+        printf("%s", infoLog);
         printf("\n");  
     } 
 
@@ -75,8 +84,8 @@ void init(){
     if (!status){
         printf("ERROR linking Program:"); 
         GLchar infoLog[1024]; 
-        glGetShaderInfoLog(vertexShader, 1024, NULL, infoLog); 
-        printf(infoLog); 
+        glGetProgramInfoLog(program, 1024, NULL, infoLog); 
+        printf("%s", infoLog); 
         printf("\n");
     } 
     glValidateProgram(program); 
@@ -84,20 +93,20 @@ void init(){
     if (!status){
         printf("ERROR validation:"); 
         GLchar infoLog[1024]; 
-        glGetShaderInfoLog(vertexShader, 1024, NULL, infoLog); 
-        printf(infoLog); 
+        glGetShaderInfoLog(program, 1024, NULL, infoLog); 
+        printf("%s",infoLog); 
         printf("\n");
     } 
 
     GLfloat triangleVertice[] = 
-    {   //x         //y        //value
-        -0.75f, 0.5f, 0.0f,
-        -0.75f, -0.5f, 0.0f, 
-        0.75f, -0.5f, 1.0f, 
+    {   //x         //y        //h      //s         //v
+        -0.75f, 0.5f, 36.4f, 0.0f, 0.0f,
+        -0.75f, -0.5f, 36.4f, 0.0f, 0.0f,
+        0.75f, -0.5f,45.0f, 0.0f, 0.0f,
 
-        0.75f, 0.5f, 1.0f, 
-        0.75f, -0.5f, 1.0f, 
-        -0.75f, 0.5f, 0.0f
+        0.75f, 0.5f, 45.2f,  0.0f, 0.0f,
+        0.75f, -0.5f, 76.3f,  0.0f, 0.0f,
+        -0.75f, 0.5f, 64.3f, 0.0f, 0.0f,
 
     };
     GLuint triangleVertexBufferObject;
@@ -117,7 +126,7 @@ void init(){
         2, 
         GL_FLOAT, 
         GL_FALSE, 
-        3 * sizeof(GLfloat),
+        5 * sizeof(GLfloat),
         0 
     ); 
 
@@ -125,10 +134,10 @@ void init(){
 
     glVertexAttribPointer(
         1, 
-        1, 
+        3, 
         GL_FLOAT, 
         GL_FALSE, 
-        3 * sizeof(GLfloat),
+        5 * sizeof(GLfloat),
         (GLvoid*)(2* sizeof(GLfloat)) 
     ); 
 
@@ -144,11 +153,8 @@ void init(){
 void draw() {
     glClear(GL_COLOR_BUFFER_BIT);  
     glUseProgram(program); 
-    GLuint frag1 = glGetUniformLocation(program, "fragColor1"); 
-    GLuint frag2 = glGetUniformLocation(program, "fragColor2"); 
-
+    GLuint frag1 = glGetUniformLocation(program, "fragColor1");  
     glUniform3f(frag1, 1.0f, 0.0f, 0.0f);
-    glUniform3f(frag2, 0.0f, 1.0f, 0.0f); 
     glBindVertexArray(vao); 
     glDrawArrays(GL_TRIANGLES, 0, 6); 
 }

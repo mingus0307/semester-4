@@ -1,0 +1,9 @@
+\contentsline {section}{\numberline {1}Zusammenfassung:}{1}{}%
+\contentsline {section}{\numberline {2}Der Redundanzbegriff}{2}{}%
+\contentsline {subsection}{\numberline {2.1} Redundanz in der Informatik}{2}{}%
+\contentsline {subsection}{\numberline {2.2}Redundanz in der Philosophie}{3}{}%
+\contentsline {subsection}{\numberline {2.3} Redundanz in der Politik}{3}{}%
+\contentsline {section}{\numberline {3}Praktische Einsatzgebiete der Redundanz}{4}{}%
+\contentsline {subsection}{\numberline {3.1} Redundanz zur Fehlererkennung in der IT}{4}{}%
+\contentsline {subsection}{\numberline {3.2} Redundanz zur Vertuschung fehlender Inhalte}{4}{}%
+\contentsline {section}{\numberline {4}Zusammenfassung und Fazit}{5}{}%
