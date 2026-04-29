@@ -1,0 +1,36 @@
+
+\documentclass[a4paper,11pt]{article}
+\usepackage{amsmath}
+\begin{document}
+\section{Mathematische Formeln}
+
+Das ist ein guter Versuch um mathematische formeln zu verwenden. 
+Hier versuchen wir es einfach mal Inline mit einer einfachen Formel wie dieser 
+oder anderen: \begin{math}  a^{2} + b^{2} = c^{2}\end{math} (hier ist es der Satz des Pythagoras). \\
+\\
+\\
+
+Man sollte aber auch wissen, dass Manche Sachen besser als eigenen Zeile stehen sollten dann nutzt man 
+\begin{displaymath}
+ a^{2} + b^{2} = c^{2}
+\end{displaymath}
+Damit man es besser lesen kann. 
+Die Fakultät einer Zahl n ist definiert als \begin{math}n! = 1 \times 2 \times \ldots \times n.\end{math} Mathematiker definieren
+das präziser als
+\begin{displaymath}
+n! =  \prod_{i = 1}^{x}{i}
+\end{displaymath}
+Aber das ist sowieso unvollständig, da ja auch $n = 0$ gelten kann. Richtig vollständig
+muß man also eine Fallunterscheidung treffen und kann bei der Gelegenheit das ganze
+auch rekursiv definieren.
+\begin{displaymath}
+\text{Fak}(n) = 
+\begin{cases}
+1  &  \text{falls } n = 0  \\
+n * \text{Fak}(n - 1)  &  \text{sonst} 
+\end{cases}
+\end{displaymath}
+Man beachte das in dieser Formel ver¨anderte Multiplikationssymbol. Außerdem benutzen
+Mathematiker auch gerne griechische Buchstaben, wie $\alpha, \beta, \gamma$. Wenn dann die Buchstaben
+knapp werden, dann wird Hoch- oder Tiefgestellt, so wie in $x_{1}, x_{2}, \ldots , x_{n} \text{ oder } y^{2}, y^{3}.$
+\end{document}
