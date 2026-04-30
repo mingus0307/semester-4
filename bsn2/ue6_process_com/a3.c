@@ -20,24 +20,38 @@ int main(){
         exit(EXIT_FAILURE); 
     } else if (pid > 0){
         // child 
-        close(my_pipe[0]); 
+        //close(my_pipe[0]); 
         printf("Hier bitte Übergabe-Satz reinschreiben:\n"); 
         fgets(zeile, 30, stdin); 
+        if (strlen(zeile) < 10){
+            printf("Fehler zu kurz"); 
+            exit(1); 
+        }
         write(my_pipe[1], zeile, strlen(zeile)); 
 
         if (waitpid(pid, NULL, 0) < 0){
             perror("WAIT FAILED"); 
         }
 
+        read(my_pipe[0], zeile, strlen(zeile)); 
+    
+        printf("Das hier ist die Eltern-Zeile in UpperCase: \n%s\n", zeile);     
+
     } else if (pid == 0){
-        close(my_pipe[1]);
+        //close(my_pipe[1]);
         int n = read(my_pipe[0], zeile, 30); 
+        if (n < 10){
+            printf("TOO SHORT.... exit(1)\n"); 
+            exit(1); 
+        }
 
         for (int i = 0; i< n; i++){
             zeile[i] = toupper(zeile[i]); 
         }
 
         printf("Das hier ist die Kind-Zeile in UpperCase: \n%s\n", zeile); 
+        write(my_pipe[1], zeile, n); 
+         
     }
     return 0; 
 }
