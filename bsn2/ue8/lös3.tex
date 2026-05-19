@@ -1,0 +1,6 @@
+\documentclass[12pt,DIV=14, version=first, BCOR=10mm,a4paper,twoside,parskip=half-,headsepline,headinclude]{scrartcl}
+\usepackage{amsmath}
+\begin{document}
+Jeder Versuch ist unabhängig. Die Wahrscheinlichkeit, bei einem Versuch nicht zu gewinnen, ist:$$q = 1 - \frac{1}{n}$$(wobei $n = 14.000.000$ die Anzahl der Möglichkeiten ist).Wenn du $k$ Versuche machst, ist die Wahrscheinlichkeit, dass keiner dieser Versuche den Zielwert trifft: $$P(\text{kein Treffer}) = q^k = \left(1 - \frac{1}{n}\right)^k$$ Du suchst den Punkt, an dem die Wahrscheinlichkeit für mindestens einen Treffer größer als 0,5 ist:$$P(\text{mindestens ein Treffer}) = 1 - \left(1 - \frac{1}{n}\right)^k > 0,5$$Die Berechnung (Schritt für Schritt)Gleichung umstellen:$$0,5 > \left(1 - \frac{1}{n}\right)^k$$Logarithmieren (um $k$ zu isolieren):$$\ln(0,5) > k \cdot \ln\left(1 - \frac{1}{n}\right)$$Nach $k$ auflösen:$$k > \frac{\ln(0,5)}{\ln\left(1 - \frac{1}{n}\right)}$$Ein wichtiger mathematischer Trick für die Prüfung:Für sehr große $n$ gilt die Annäherung $\ln(1 - \frac{1}{n}) \approx -\frac{1}{n}$.Damit vereinfacht sich die Formel zu:$$k \approx \ln(2) \cdot n \approx 0,693 \cdot n$$Das Ergebnis für das BeispielSetzen wir $n = 14.000.000$ ein:$$k \approx 0,693 \cdot 14.000.000 \approx 9.702 .000$$
+
+\end{document}
