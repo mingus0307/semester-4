@@ -1,0 +1,208 @@
+\documentclass[12pt,DIV=14, version=first, BCOR=10mm,a4paper,twoside,parskip=half-,headsepline,headinclude]{scrartcl}
+% Grundgröße 12pt, zweiseitig
+% Standardpakete
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+% deutsche Silbentrennung
+\usepackage[ngerman]{babel}
+% Kopf- und Fußzeilen
+\usepackage[headsepline,footsepline,automark]{scrlayer-scrpage}
+\pagestyle{scrheadings}
+% Links anklickbar
+\usepackage{url,hyperref,color}
+\usepackage{float}
+\definecolor{MidnightBlue}{cmyk}{0.98,0.13,0,0.43}
+\hypersetup{colorlinks,breaklinks=true, pdffitwindow=true,pdfpagelayout=SinglePage,
+            linkcolor=blue,pdfauthor={}, pdfdisplaydoctitle=true,
+            pdfsubject={},   % to be defined later
+            bookmarksnumbered,citecolor=MidnightBlue,
+            urlcolor=MidnightBlue}
+\raggedbottom
+\renewcommand{\topfraction}{1}
+\renewcommand{\bottomfraction}{1}
+\begin{document}
+\thispagestyle{empty}
+   {  ~ \sffamily
+  \vfill
+  {\Huge\bfseries Paper Review: \\
+  Integration of the Kano Method into the User
+Experience Questionnaire Plus (UEQ+): An
+Evaluation Study on Practical Applicability}
+  \bigskip
+
+  {\Large
+ Zieljournal: Information and Software Technology \\[2ex]
+ Sprache: Deutsch  \\[2ex]
+ von Sören Krumm, Mat.-Nr.: 1819977 
+ \\[5ex]
+   \today }
+}
+ \vfill
+
+  ~ \hfill
+
+
+\vspace*{-3cm}
+\newpage
+\section{Teil A – Kommentare an die Herausgeber}
+Das Paper behandelt ein interessantes und praxisrelevantes Forschungsthema, nämlich die Integration der Kano-Methode in das UEQ+-Framework zur Bewertung von User Experience. Besonders positiv hervorzuheben sind die vergleichsweise große Stichprobe (N=600), die klare Grundstruktur des Papers sowie der Versuch, mehrere Integrationsansätze systematisch miteinander zu vergleichen.
+
+Allerdings weist das Manuskript mehrere methodische und konzeptionelle Schwächen auf. Insbesondere bleibt unklar, wie „praktische Anwendbarkeit“ genau definiert und gemessen wird. Darüber hinaus erscheint die statistische Validierung für ein methodenorientiertes Paper zu begrenzt, und einige Schlussfolgerungen gehen über die Aussagekraft der Daten hinaus. Vor allem die Empfehlung von A1-Desc als „universell anwendbare“ Methode wird nicht ausreichend belegt.
+\section{Teil B – Kommentare an die Autoren}
+\subsection{Zusammenfassung}
+
+Das Paper schlägt eine Erweiterung des User Experience Questionnaire Plus (UEQ+) vor, indem Kano-basierte Fragen für einzelne UX-Faktoren integriert werden. Die Autor:innen vergleichen dabei drei verschiedene Ansätze zur Formulierung der Kano-Fragen: Fragen auf Basis ausführlicher UX-Faktor-Beschreibungen (A1-Desc), auf Basis der Namen der UX-Faktoren (A2-Factor) sowie auf Basis der ursprünglichen UEQ+-Items (A3-Items).
+
+Zur Evaluation dieser Ansätze wurde eine Studie mit 600 Teilnehmenden durchgeführt, wobei Booking.com und TikTok als Untersuchungsobjekte dienten. Die Teilnehmenden beantworteten sowohl klassische UEQ+-Fragen als auch zusätzliche Kano-Fragen. Die Analyse umfasste die Auswertung der UEQ+-Daten, die Kano-Kategorisierung sowie Korrelationsanalysen zwischen UEQ+-Werten, Wichtigkeitseinschätzungen und Kano-Antworten.
+
+Die Autoren kommen zu dem Schluss, dass alle drei Ansätze vergleichbare UEQ+-Ergebnisse liefern, A1-Desc jedoch die geringsten Korrelationen mit bestehenden UEQ+-Dimensionen aufweist und deshalb die am besten geeignete Methode zur Integration der Kano-Methode in den UEQ+ sei.
+
+Das Paper behandelt ein relevantes Forschungsthema und stellt einen interessanten Versuch dar, etablierte UX-Evaluationsverfahren mit Kano-basierter Priorisierung zu kombinieren.
+\subsection{Stärken}
+
+Das Paper besitzt mehrere positive Aspekte.
+
+Zunächst ist das Forschungsthema praxisrelevant und nachvollziehbar motiviert. Die Kombination aus UX-Messung und Kano-Kategorisierung adressiert ein reales Problem in der UX-Forschung und Produktentwicklung, nämlich nicht nur die Bewertung von UX-Faktoren, sondern auch deren wahrgenommene Relevanz für Nutzer:innen.
+
+Darüber hinaus ist das Paper insgesamt klar strukturiert und gut lesbar. Die drei untersuchten Ansätze werden nachvollziehbar beschrieben, und der methodische Ablauf der Studie ist grundsätzlich verständlich dargestellt.
+
+Positiv hervorzuheben ist außerdem die vergleichsweise große Stichprobe von N=600 Teilnehmenden. Auch die Aufteilung in mehrere Datensätze sowie die Vermeidung von Überschneidungen zwischen den Teilnehmenden stärken das Studiendesign.
+
+Ein weiterer Pluspunkt besteht darin, dass nicht nur ein einzelner Ansatz vorgestellt, sondern mehrere Varianten systematisch miteinander verglichen werden. Dadurch besitzt die Arbeit einen höheren wissenschaftlichen Mehrwert als eine reine Methodenpräsentation.
+
+Schließlich benennen die Autor:innen zumindest teilweise die Grenzen ihrer Untersuchung und vermeiden eine vollständige Überbewertung der Ergebnisse.
+\subsection{Major Comment 1 – „Practical Applicability“ wird nicht ausreichend definiert}
+
+Das zentrale Ziel des Papers besteht darin, die „praktische Anwendbarkeit“ der drei Ansätze zu evaluieren. Allerdings bleibt im gesamten Manuskript unklar, was genau unter praktischer Anwendbarkeit verstanden wird.
+
+Die Bewertung basiert hauptsächlich auf Korrelationsanalysen zwischen UEQ+, Wichtigkeitseinschätzungen und Kano-Fragen. Niedrige Korrelationen werden dabei implizit als positiv interpretiert, da die Kano-Fragen dadurch „unabhängig“ von den übrigen Dimensionen seien.
+
+Diese Interpretation erscheint jedoch zu eingeschränkt. Praktische Anwendbarkeit könnte beispielsweise auch umfassen:
+
+Verständlichkeit der Fragen,
+Reliabilität,
+interne Konsistenz,
+Antwortstabilität,
+Belastung der Teilnehmenden,
+Konstruktvalidität,
+Interpretierbarkeit der Ergebnisse.
+
+Aktuell setzt das Paper geringe Korrelationen weitgehend mit einer besseren Methode gleich, ohne dies theoretisch ausreichend zu begründen.
+
+Die Autor:innen sollten daher klarer definieren:
+
+welche Kriterien praktische Anwendbarkeit umfasst,
+warum Korrelationen als zentrales Bewertungskriterium gewählt wurden,
+und weshalb geringe Korrelationen zwangsläufig eine bessere Integration bedeuten.
+
+Ohne diese Präzisierung bleibt die zentrale Bewertungsgrundlage des Papers konzeptionell unscharf.
+
+\subsection{Major Comment 2 – Die Empfehlung von A1-Desc als „universelle“ Methode ist zu stark formuliert}
+
+Das Paper kommt zu dem Schluss, dass A1-Desc als „universell anwendbare“ Methode empfohlen werden könne.
+
+Diese Schlussfolgerung erscheint auf Basis der vorliegenden Daten zu weitreichend.
+
+Die Studie untersucht lediglich:
+
+zwei Produkte,
+fünf UX-Faktoren,
+englischsprachige Teilnehmende,
+sowie jeweils nur eine konkrete Formulierung pro Ansatz.
+
+Zudem wirken die Ergebnisse selbst differenzierter, als die Schlussfolgerung suggeriert. Für TikTok scheint beispielsweise A3-Items teilweise ebenfalls gut zu funktionieren. Zusätzlich entsteht eine gewisse Inkonsistenz dadurch, dass im Abstract zunächst erwähnt wird, es gebe „keine universell anwendbare Empfehlung“, während spätere Abschnitte dennoch genau eine solche Empfehlung formulieren.
+
+Die Autor:innen sollten ihre Schlussfolgerungen daher vorsichtiger formulieren und die Ergebnisse eher als explorative Hinweise denn als universell gültige Empfehlung darstellen.
+
+\subsection{Major Comment 3 – Fehlende Validierung der neu entwickelten Kano-Fragen}
+
+Das Paper führt vollständig neue Kano-Fragen ein, liefert jedoch kaum Informationen zu deren Validierung.
+
+Besonders problematisch erscheint dies bei den A3-Items, da dort mehrere semantische Eigenschaften in einer einzelnen Frage kombiniert werden, beispielsweise:
+„fast, efficient, practical and organized“.
+
+Dadurch entsteht das Risiko, dass Teilnehmende unterschiedlich auf einzelne Begriffe reagieren. Es bleibt somit unklar, welcher Aspekt tatsächlich bewertet wird.
+
+Methodisch handelt es sich hierbei um potenziell problematische „double-barreled items“ beziehungsweise um die Vermischung mehrerer Konstrukte innerhalb einer Frage.
+
+Das Paper würde deutlich gewinnen, wenn zusätzliche Informationen bereitgestellt würden, beispielsweise zu:
+
+Pilotstudien,
+Verständlichkeitstests,
+Reliabilitätsanalysen,
+oder qualitativer Validierung der Fragen.
+
+Ohne solche Validierungsschritte bleibt unklar, ob die beobachteten Unterschiede tatsächlich auf die Ansätze selbst oder lediglich auf Formulierungseffekte zurückzuführen sind.
+
+\subsection{Major Comment 4 – Die statistische Analyse bleibt relativ oberflächlich}
+
+Für ein methodenorientiertes Paper erscheint die statistische Absicherung vergleichsweise begrenzt.
+
+Berichtet werden hauptsächlich:
+
+t-Tests,
+Pearson-Korrelationen,
+sowie Kano-Kategorisierungen.
+
+Zusätzliche Analysen hätten die Aussagekraft deutlich erhöht, beispielsweise:
+
+Effektstärken,
+Konfidenzintervalle für Korrelationen,
+Reliabilitätsmaße (z. B. Cronbach’s Alpha),
+Faktorenanalysen,
+Inter-Item-Reliabilität,
+oder Korrekturen für multiples Testen.
+
+Insbesondere die Interpretation der Korrelationen wirkt teilweise eher beschreibend als methodisch tiefgehend.
+
+\subsection{Major Comment 5 – Mögliche Reihenfolge- und Primingeffekte werden nicht diskutiert}
+
+Die Teilnehmenden beantworteten UEQ+-Fragen, Wichtigkeitseinschätzungen und Kano-Fragen innerhalb derselben Befragung.
+
+Dadurch können potenzielle:
+
+Primingeffekte,
+Konsistenzbias,
+oder Ermüdungseffekte entstehen.
+
+Da die zentrale Argumentation des Papers auf der Unabhängigkeit der Kano-Fragen basiert, wäre eine Diskussion möglicher Abhängigkeiten durch das Fragebogendesign wichtig gewesen.
+
+Das Manuskript enthält jedoch kaum Informationen zu:
+
+Randomisierung der Fragen,
+Reihenfolgeeffekten,
+oder Maßnahmen zur Kontrolle solcher Verzerrungen.
+\subsection{Minor Comments}
+1. Das Paper enthält mehrere sprachliche und typografische Fehler, beispielsweise:
+* „User Experiene“
+* „non-transaprent“
+* „obsolte“.
+
+2. Die Benennung des dritten Ansatzes ist inkonsistent. Im Paper werden sowohl:
+
+* „A3-Items“,
+* „A3-Item“
+* als auch „A3-Element“
+  verwendet.
+
+3. Einige Tabellen, insbesondere Tabelle 6 und 7, sind aufgrund der dichten Darstellung schwer lesbar.
+
+4. Die Einführung enthält relativ ausführliche Grundlagenbeschreibungen zu UEQ+ und Kano, während die eigentliche methodische Neuerung stellenweise vergleichsweise knapp diskutiert wird.
+
+5. Ethische Aspekte der Studie werden kaum behandelt. Da menschliche Teilnehmende involviert waren, sollte zumindest kurz erläutert werden:
+
+* ob eine Einwilligung eingeholt wurde,
+* ob eine Ethikfreigabe vorlag,
+* und wie mit personenbezogenen Daten umgegangen wurde.
+
+6. Teile der Diskussion wiederholen Ergebnisse, anstatt diese stärker kritisch zu interpretieren.
+
+\subsection{Empfehlung}
+Empfehlung: Major Revision
+
+Das Paper präsentiert eine interessante und praxisrelevante Forschungsidee mit Potenzial für zukünftige Arbeiten im Bereich UX-Evaluation. Allerdings bestehen derzeit mehrere methodische und konzeptionelle Schwächen, insbesondere hinsichtlich der Definition von „praktischer Anwendbarkeit“, der Validierung der neu entwickelten Kano-Fragen sowie der Stärke der gezogenen Schlussfolgerungen.
+
+Vor einer Veröffentlichung sind daher substantielle Überarbeitungen notwendig.
+
+\end{document}
